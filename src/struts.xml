@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+        <!-- configuration json Struts-->
+        <!-- https://github.com/cenobites/struts2-json-plugin -->
+        <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+        <constant name="struts.devMode" value="true" />
+        <!-- Fin configuration -->
+
+        <package name="admin" extends="struts-default" namespace="/admin">
+                <action name="ajouter_question" class="fr.appli.qcm.actions.administration.QuestionAction" method="ajouterQuestion">
+                        <result name="success">/WEB-INF/administration/question/ajouter.jsp</result>
+                </action>
+
+                <action name="supprimer_question" class="fr.appli.qcm.actions.administration.QuestionAction" method="supprimerQuestion" >
+
+                        <result name="success" type="redirectAction">
+                                <param name="actionName">ajouter_question</param>
+                        </result>
+                </action>
+
+                <action name="ajouter_utilisateur" class="fr.appli.qcm.actions.administration.UtilisateurAction" method="ajouterUtilisateur">
+                        <result name="success">/WEB-INF/administration/utilisateur/ajouter.jsp</result>
+                </action>
+
+                <action name="supprimer_utilisateur" class="fr.appli.qcm.actions.administration.UtilisateurAction" method="supprimerUtilisateur">
+                        <result name="success" type="redirectAction">
+                                <param name="actionName">ajouter_utilisateur</param>
+                                <param name="namespace">/admin</param>
+                        </result>
+                </action>
+
+                <action name="ajouter_questionnaire" class="fr.appli.qcm.actions.administration.QuestionnaireAction" method="ajouterQuestionnaire">
+                        <result name="success">/WEB-INF/administration/questionnaire/ajouter.jsp</result>
+                </action>
+
+                <action name="supprimer_questionnaire" class="fr.appli.qcm.actions.administration.QuestionnaireAction" method="supprimerQuestionnaire">
+                        <result name="success" type="redirectAction">
+                                <param name="actionName">ajouter_questionnaire.action</param>
+                                <param name="namespace">/admin</param>
+                        </result>
+                </action>
+
+                <action name="stopper_questionnaire" class="fr.appli.qcm.actions.administration.QuestionnaireAction" method="stopperQuestionnaire">
+                        <result name="success" type="redirectAction">
+                                <param name="actionName">ajouter_questionnaire.action</param>
+                                <param name="namespace">/admin</param>
+                        </result>
+                </action>
+
+                <action name="demarrer_questionnaire" class="fr.appli.qcm.actions.administration.QuestionnaireAction" method="demarrerQuestionnaire">
+                        <result name="success" type="redirectAction">
+                                <param name="actionName">ajouter_questionnaire.action</param>
+                                <param name="namespace">/admin</param>
+                        </result>
+                </action>
+
+                <action name="ajouter_reponse" class="fr.appli.qcm.actions.administration.ReponseAction" method="ajouterReponse">
+                        <result name="success" >/WEB-INF/administration/reponse/ajouter.jsp</result>
+                </action>
+        </package>
+
+        <package name="client" extends="struts-default" namespace="/">
+                <default-action-ref name="connection" />
+                <action name="liste_questionnaire" class="fr.appli.qcm.actions.client.QuestionnaireAction" method="listeQuestionnaire">
+                        <result name="success">WEB-INF/client/questionnaire/liste.jsp</result>
+                        <result name="login" type="redirectAction">
+                                <param name="actionName">connection</param>
+                        </result>
+                </action>
+                <action name="connection" class="fr.appli.qcm.actions.client.AuthentificationAction" method="connection">
+                        <result name="success" type="redirectAction">
+                                <param name="actionName">liste_questionnaire.action</param>
+                        </result>
+                        <result name="login">/WEB-INF/client/authentification/connection.jsp</result>
+                        <result name="error">/WEB-INF/client/authentification/connection.jsp</result>
+                </action>
+
+                <action name="deconnection" class="fr.appli.qcm.actions.client.AuthentificationAction" method="deconnection">
+                        <result name="success" type="redirectAction">
+                                <param name="actionName">connection</param>
+                        </result>
+                </action>
+
+
+                <action name="demarrer_qcm" class="fr.appli.qcm.actions.client.EvaluationAction" method="demarrerQuestionnaire">
+                        <result name="success">WEB-INF/client/questionnaire/demarrer.jsp</result>
+                        <result name="input">/WEB-INF/client/questionnaire/terminer.jsp</result>
+                        <result name="error" type="redirectAction">
+                                <param name="actionName">liste_questionnaire</param>
+                        </result>
+                        <result name="login" type="redirectAction">
+                                <param name="actionName">connection</param>
+                        </result>
+
+                </action>
+        </package>
+
+        <package name="ajax" extends="struts-default" namespace="/ajax">
+                <action name="information-participant" class="fr.appli.qcm.actions.client.EvaluationAction" method="informationParticipant">
+                        <result name="success">/WEB-INF/client/questionnaire/informationParticipant.jsp</result>
+                </action>
+        </package>
+</struts>
